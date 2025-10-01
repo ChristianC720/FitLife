@@ -1,12 +1,19 @@
+import { NavLink } from 'react-router-dom'
 import type { UserProfile } from '../types/dashboard'
 
-const NAV_LINKS = [
-  'Dashboard',
-  'Ejercicios',
-  'Nutrición',
-  'Progreso',
-  'Metas',
-  'Comunidad',
+interface NavItem {
+  label: string
+  to?: string
+  end?: boolean
+}
+
+const NAV_LINKS: NavItem[] = [
+  { label: 'Dashboard', to: '/', end: true },
+  { label: 'Ejercicios', to: '/ejercicios' },
+  { label: 'Nutrición', to: '/nutricion' },
+  { label: 'Progreso' },
+  { label: 'Metas' },
+  { label: 'Comunidad' },
 ]
 
 interface TopBarProps {
@@ -21,11 +28,22 @@ export function TopBar({ user }: TopBarProps) {
         <span className="brand-name">FitLife</span>
       </div>
       <nav className="nav-links" aria-label="Secciones principales">
-        {NAV_LINKS.map((link) => (
-          <a key={link} href="#">
-            {link}
-          </a>
-        ))}
+        {NAV_LINKS.map((item) =>
+          item.to ? (
+            <NavLink
+              key={item.label}
+              to={item.to}
+              end={item.end}
+              className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}
+            >
+              {item.label}
+            </NavLink>
+          ) : (
+            <span key={item.label} className="nav-link nav-link--disabled">
+              {item.label}
+            </span>
+          )
+        )}
       </nav>
       <div className="profile-area">
         <button className="ghost-button" aria-label="Notificaciones">
