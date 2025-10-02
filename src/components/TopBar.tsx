@@ -11,9 +11,9 @@ const NAV_LINKS: NavItem[] = [
   { label: 'Dashboard', to: '/', end: true },
   { label: 'Ejercicios', to: '/ejercicios' },
   { label: 'Nutrición', to: '/nutricion' },
-  { label: 'Progreso' },
-  { label: 'Metas' },
-  { label: 'Comunidad' },
+  { label: 'Progreso', to: '/progreso' },
+  { label: 'Metas', to: '/metas' },
+  { label: 'Comunidad', to: '/comunidad' },
 ]
 
 interface TopBarProps {

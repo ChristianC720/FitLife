@@ -7,7 +7,10 @@ import { AddFoodPage } from './pages/AddFoodPage'
 import { DashboardPage } from './pages/DashboardPage'
 import { CreateExercisePlanPage } from './pages/CreateExercisePlanPage'
 import { ExercisePlansPage } from './pages/ExercisePlansPage'
+import { CommunityPage } from './pages/CommunityPage'
 import { NutritionPage } from './pages/NutritionPage'
+import { GoalsPage } from './pages/GoalsPage'
+import { ProgressPage } from './pages/ProgressPage'
 
 function Layout() {
   const location = useLocation()
@@ -32,6 +35,9 @@ function App() {
         <Route path="/ejercicios/crear" element={<CreateExercisePlanPage />} />
         <Route path="/nutricion" element={<NutritionPage />} />
         <Route path="/nutricion/agregar" element={<AddFoodPage />} />
+        <Route path="/progreso" element={<ProgressPage />} />
+        <Route path="/metas" element={<GoalsPage />} />
+        <Route path="/comunidad" element={<CommunityPage />} />
       </Route>
     </Routes>
   )
