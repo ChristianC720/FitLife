@@ -59,7 +59,7 @@ CREATE INDEX idx_workout_history_plan_id ON workout_history(plan_id);
 
 -- Trigger para actualizar updated_at
 CREATE OR REPLACE FUNCTION update_updated_at_column()
-RETURNS TRIGGER AS $${
+RETURNS TRIGGER AS $$
 BEGIN
   NEW.updated_at = NOW();
   RETURN NEW;
