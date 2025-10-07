@@ -9,25 +9,46 @@ interface ProgressChartsProps {
 export function ProgressCharts({ view }: ProgressChartsProps) {
   if (view.type === 'activity') {
     const columnsStyle = { '--chart-columns': `${view.dailySteps.length}` } as CSSProperties
+    const maxValue = Math.max(...view.dailySteps.map(s => s.value), 60) // Mínimo 60 para escalar bien
+    
     return (
       <section className="progress-charts">
         <article className="progress-chart-card">
           <header>
             <div>
-              <h3>Pasos Diarios</h3>
-              <p>Progreso de pasos vs objetivo (últimos 7 días)</p>
+              <h3>Actividad Diaria</h3>
+              <p>Minutos de ejercicio vs objetivo (últimos 7 días)</p>
             </div>
           </header>
           <div className="progress-chart-content">
             <div className="chart-plot chart-plot--line">
               <div className="chart-grid-lines" aria-hidden="true" style={columnsStyle}>
-                {Array.from({ length: Math.max(view.dailySteps.length - 1, 1) }).map((_, index) => (
-                  <span key={index} className="grid-line" />
+                {Array.from({ length: 5 }).map((_, index) => (
+                  <span key={`grid-${index}`} className="grid-line" />
                 ))}
               </div>
+              
+              {/* Barras verticales */}
+              <div className="chart-bars-vertical" style={columnsStyle}>
+                {view.dailySteps.map((step, index) => {
+                  const percentage = Math.min((step.value / maxValue) * 100, 100)
+                  return (
+                    <div key={`bar-${index}`} className="chart-bar-vertical">
+                      <div 
+                        className="bar-vertical-fill" 
+                        style={{ height: `${percentage}%` }}
+                        title={`${step.value} minutos`}
+                      >
+                        <span className="bar-value">{step.value}</span>
+                      </div>
+                    </div>
+                  )
+                })}
+              </div>
+              
               <div className="chart-days" style={columnsStyle}>
-                {view.dailySteps.map((point) => (
-                  <span key={point.day}>{point.day}</span>
+                {view.dailySteps.map((point, index) => (
+                  <span key={`day-${index}`}>{point.day}</span>
                 ))}
               </div>
             </div>
@@ -45,13 +66,19 @@ export function ProgressCharts({ view }: ProgressChartsProps) {
             <div className="chart-plot chart-plot--donut">
               <div className="donut-ring" aria-hidden="true" />
               <ul className="donut-legend">
-                {view.distribution.map((slice) => (
-                  <li key={slice.id} className={`legend-item ${slice.accent}`}>
-                    <span className="legend-color" aria-hidden="true" />
-                    <span className="legend-label">{slice.label}</span>
-                    <span className="legend-percentage">{slice.percentage}%</span>
+                {view.distribution.length > 0 ? (
+                  view.distribution.map((slice) => (
+                    <li key={slice.id} className={`legend-item ${slice.accent}`}>
+                      <span className="legend-color" aria-hidden="true" />
+                      <span className="legend-label">{slice.label}</span>
+                      <span className="legend-percentage">{slice.percentage}%</span>
+                    </li>
+                  ))
+                ) : (
+                  <li className="legend-item no-data">
+                    <span>No hay datos de entrenamientos</span>
                   </li>
-                ))}
+                )}
               </ul>
             </div>
           </div>
@@ -89,8 +116,8 @@ export function ProgressCharts({ view }: ProgressChartsProps) {
               </div>
             </div>
             <div className="chart-days" style={columnsStyle}>
-              {view.calories.map((point) => (
-                <span key={point.day}>{point.day}</span>
+              {view.calories.map((point, index) => (
+                <span key={`cal-day-${index}`}>{point.day}</span>
               ))}
             </div>
             <div className="area-legend">
@@ -124,19 +151,19 @@ export function ProgressCharts({ view }: ProgressChartsProps) {
             <div className="chart-plot chart-plot--line chart-plot--weight">
               <div className="chart-grid-lines" aria-hidden="true" style={columnsStyle}>
                 {Array.from({ length: Math.max(view.trend.length - 1, 1) }).map((_, index) => (
-                  <span key={index} className="grid-line" />
+                  <span key={`weight-grid-${index}`} className="grid-line" />
                 ))}
               </div>
               <div className="chart-days" style={columnsStyle}>
-                {view.trend.map((point) => (
-                  <span key={point.day}>{point.day}</span>
+                {view.trend.map((point, index) => (
+                  <span key={`weight-day-${index}`}>{point.day}</span>
                 ))}
               </div>
             </div>
           </div>
           <footer className="progress-chart-footer">
-            {view.metrics.map((metric) => (
-              <div key={metric.label}>
+            {view.metrics.map((metric, index) => (
+              <div key={`metric-${index}`}>
                 <span className="metric-label">{metric.label}</span>
                 <strong>{metric.value}</strong>
               </div>
@@ -169,8 +196,8 @@ export function ProgressCharts({ view }: ProgressChartsProps) {
             ))}
           </ul>
           <div className="goal-metrics">
-            {view.metrics.map((metric) => (
-              <div key={metric.label}>
+            {view.metrics.map((metric, index) => (
+              <div key={`goal-metric-${index}`}>
                 <span className="metric-label">{metric.label}</span>
                 <strong>{metric.value}</strong>
               </div>

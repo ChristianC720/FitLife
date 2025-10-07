@@ -4,7 +4,7 @@ import { ProgressSummaryGrid } from '../components/ProgressSummaryGrid';
 import { ProgressTabs } from '../components/ProgressTabs';
 import { progressTabs } from '../data/progress';
 import type { ProgressTabId, ProgressSummary } from '../types/progress';
-import { useProgress } from '../hooks/';
+import { useProgress } from '../hooks/useProgress';
 
 export function ProgressPage() {
   const [activeTab, setActiveTab] = useState<ProgressTabId>('activity');
@@ -70,8 +70,8 @@ export function ProgressPage() {
           value: m.workout_duration_minutes,
           target: 60,
         })),
-        distribution: distribution.map(d => ({
-          id: d.category,
+        distribution: distribution.map((d, index) => ({
+          id: `${d.category}-${index}`, // ⬅️ KEY ÚNICA CON ÍNDICE
           label: d.category.charAt(0).toUpperCase() + d.category.slice(1),
           percentage: d.percentage,
           accent: getCategoryAccent(d.category),
