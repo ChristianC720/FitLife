@@ -1,31 +1,89 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react';
 
 interface Option {
-  label: string
-  value: string
+  label: string;
+  value: string;
 }
 
 interface AddExerciseModalProps {
-  open: boolean
-  onClose: () => void
-  exerciseOptions: Option[]
+  open: boolean;
+  onClose: () => void;
+  exerciseOptions: Option[];
+  onAddExercise: (exercise: {
+    exercise_name: string;
+    sets: number;
+    reps: string;
+    weight?: string;
+    rest_seconds: number;
+    notes?: string;
+  }) => void;
 }
 
-export function AddExerciseModal({ open, onClose, exerciseOptions }: AddExerciseModalProps) {
+export function AddExerciseModal({ 
+  open, 
+  onClose, 
+  exerciseOptions,
+  onAddExercise 
+}: AddExerciseModalProps) {
+  const [formData, setFormData] = useState({
+    exercise_name: '',
+    sets: 3,
+    reps: '10-12',
+    weight: '',
+    rest_seconds: 60,
+    notes: '',
+  });
+
   useEffect(() => {
-    if (!open) return
+    if (!open) return;
 
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
-        onClose()
+        onClose();
       }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [open, onClose]);
+
+  // Resetear formulario al cerrar
+  useEffect(() => {
+    if (!open) {
+      setFormData({
+        exercise_name: '',
+        sets: 3,
+        reps: '10-12',
+        weight: '',
+        rest_seconds: 60,
+        notes: '',
+      });
+    }
+  }, [open]);
+
+  const handleChange = (field: string, value: string | number) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!formData.exercise_name) {
+      alert('Debes seleccionar un ejercicio');
+      return;
     }
 
-    window.addEventListener('keydown', handleKeyDown)
-    return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [open, onClose])
+    onAddExercise({
+      exercise_name: formData.exercise_name,
+      sets: formData.sets,
+      reps: formData.reps,
+      weight: formData.weight || undefined,
+      rest_seconds: formData.rest_seconds,
+      notes: formData.notes || undefined,
+    });
+  };
 
-  if (!open) return null
+  if (!open) return null;
 
   return (
     <div
@@ -46,10 +104,15 @@ export function AddExerciseModal({ open, onClose, exerciseOptions }: AddExercise
           </button>
         </header>
 
-        <form className="modal-form">
+        <form className="modal-form" onSubmit={handleSubmit}>
           <label className="form-field">
-            <span>Ejercicio</span>
-            <select defaultValue="" name="exercise">
+            <span>Ejercicio *</span>
+            <select 
+              value={formData.exercise_name} 
+              name="exercise"
+              onChange={(e) => handleChange('exercise_name', e.target.value)}
+              required
+            >
               {exerciseOptions.map((option) => (
                 <option key={option.value} value={option.value}>
                   {option.label}
@@ -60,36 +123,63 @@ export function AddExerciseModal({ open, onClose, exerciseOptions }: AddExercise
 
           <div className="form-row">
             <label className="form-field">
-              <span>Series</span>
-              <input type="number" min={1} defaultValue={3} />
+              <span>Series *</span>
+              <input 
+                type="number" 
+                min={1} 
+                value={formData.sets}
+                onChange={(e) => handleChange('sets', parseInt(e.target.value))}
+                required
+              />
             </label>
             <label className="form-field">
-              <span>Repeticiones</span>
-              <input type="text" defaultValue="10-12" />
+              <span>Repeticiones *</span>
+              <input 
+                type="text" 
+                value={formData.reps}
+                onChange={(e) => handleChange('reps', e.target.value)}
+                placeholder="Ej: 10-12"
+                required
+              />
             </label>
           </div>
 
           <div className="form-row">
             <label className="form-field">
               <span>Peso (opcional)</span>
-              <input type="text" defaultValue="20kg" />
+              <input 
+                type="text" 
+                value={formData.weight}
+                onChange={(e) => handleChange('weight', e.target.value)}
+                placeholder="Ej: 20kg"
+              />
             </label>
             <label className="form-field">
               <span>Descanso (seg)</span>
-              <input type="number" min={0} defaultValue={60} />
+              <input 
+                type="number" 
+                min={0} 
+                value={formData.rest_seconds}
+                onChange={(e) => handleChange('rest_seconds', parseInt(e.target.value))}
+              />
             </label>
           </div>
 
           <label className="form-field">
             <span>Notas (opcional)</span>
-            <textarea rows={2} placeholder="Instrucciones especiales..." />
+            <textarea 
+              rows={2} 
+              placeholder="Instrucciones especiales..."
+              value={formData.notes}
+              onChange={(e) => handleChange('notes', e.target.value)}
+            />
           </label>
 
-          <button type="button" className="primary-button modal-submit">
+          <button type="submit" className="primary-button modal-submit">
             Agregar Ejercicio
           </button>
         </form>
       </div>
     </div>
-  )
+  );
 }

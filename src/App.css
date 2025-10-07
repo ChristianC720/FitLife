@@ -1623,16 +1623,33 @@
 
 .filter-select select {
   margin-top: 2px;
-  background: transparent;
+  background: rgba(12, 18, 26, 0.95);
   border: none;
   color: var(--text-primary);
   font-size: 14px;
+  cursor: pointer;
+  padding: 4px 0;
 }
 
 .filter-select select:focus {
   outline: none;
 }
 
+.filter-select select option {
+  background: rgba(12, 18, 26, 0.95);
+  color: var(--text-primary);
+  padding: 8px;
+}
+
+.filter-select select option:hover,
+.filter-select select option:focus {
+  background: rgba(130, 241, 139, 0.15);
+}
+
+.filter-select select option:checked {
+  background: rgba(130, 241, 139, 0.2);
+  color: #e5ffe9;
+}
 .plan-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -1692,6 +1709,8 @@
 .plan-card__description {
   margin: 0;
   color: var(--text-secondary);
+  flex-grow: 1; /* AGREGAR ESTA LÍNEA para que ocupe el espacio disponible */
+  min-height: 40px;
 }
 
 .plan-card__meta {
@@ -2224,4 +2243,431 @@
     flex-direction: row;
     justify-content: space-between;
   }
+}
+
+/* ============================================
+   ESTADOS DE CARGA, ERROR Y VACÍO
+   ============================================ */
+
+.loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 240px;
+  padding: 48px 24px;
+  background: rgba(10, 14, 24, 0.9);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  text-align: center;
+}
+
+.loading-state p {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 16px;
+}
+
+.loading-state::before {
+  content: '⏳';
+  font-size: 48px;
+  margin-bottom: 16px;
+  display: block;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(1.1);
+  }
+}
+
+.error-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 36px 24px;
+  background: rgba(255, 119, 119, 0.08);
+  border: 1px solid rgba(255, 119, 119, 0.28);
+  border-radius: 20px;
+  text-align: center;
+}
+
+.error-state p {
+  margin: 0;
+  color: #ffc5c5;
+  font-size: 15px;
+}
+
+.error-state button {
+  margin-top: 8px;
+}
+
+.error-message {
+  padding: 16px 20px;
+  background: rgba(255, 119, 119, 0.12);
+  border: 1px solid rgba(255, 119, 119, 0.28);
+  border-radius: 14px;
+  color: #ffc5c5;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+}
+
+/* ============================================
+   LISTA DE EJERCICIOS EN PREVIEW
+   ============================================ */
+
+.exercise-preview-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.exercise-preview-item {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 18px;
+  background: rgba(5, 9, 15, 0.82);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.exercise-preview-item:hover {
+  transform: translateY(-2px);
+  border-color: rgba(129, 245, 154, 0.25);
+}
+
+.exercise-preview-item > div {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.exercise-preview-item strong {
+  color: var(--text-primary);
+  font-size: 15px;
+}
+
+.exercise-preview-item p {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 13px;
+}
+
+.exercise-preview-item small {
+  color: var(--text-muted);
+  font-size: 12px;
+  font-style: italic;
+}
+
+.exercise-preview-item .ghost-button {
+  padding: 8px 12px;
+  font-size: 18px;
+  align-self: flex-start;
+}
+
+/* ============================================
+   BOTONES DESHABILITADOS
+   ============================================ */
+
+.primary-button:disabled,
+.ghost-button:disabled,
+.secondary-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ============================================
+   MEJORAS RESPONSIVE ADICIONALES
+   ============================================ */
+
+@media (max-width: 768px) {
+  .exercise-preview-item {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .exercise-preview-item .ghost-button {
+    align-self: flex-end;
+  }
+}
+/* ============================================
+   BOTÓN DE ELIMINAR PLAN (ROJO)
+   ============================================ */
+
+.delete-plan-button {
+  padding: 6px 10px;
+  border-radius: 10px;
+  font-size: 16px;
+  background: rgba(255, 82, 82, 0.12);
+  border: 1px solid rgba(255, 82, 82, 0.3);
+  color: #ff6b6b;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.delete-plan-button:hover {
+  background: rgba(255, 82, 82, 0.22);
+  border-color: rgba(255, 82, 82, 0.5);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(255, 82, 82, 0.25);
+}
+
+.delete-plan-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ============================================
+   MODAL DE CONFIRMACIÓN DE ELIMINACIÓN
+   ============================================ */
+
+.delete-plan-modal {
+  width: min(440px, 90%);
+  background: linear-gradient(180deg, rgba(20, 15, 23, 0.98), rgba(10, 7, 12, 0.98));
+  border-radius: 24px;
+  border: 1px solid rgba(255, 82, 82, 0.2);
+  box-shadow: 0 30px 70px rgba(255, 20, 20, 0.35);
+  padding: 32px 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  text-align: center;
+}
+
+.delete-modal-icon {
+  font-size: 56px;
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 82, 82, 0.15);
+  border: 2px solid rgba(255, 82, 82, 0.3);
+}
+
+.delete-modal-header h2 {
+  margin: 0;
+  font-size: 22px;
+  color: #fff;
+}
+
+.delete-modal-header p {
+  margin: 12px 0 0;
+  color: var(--text-secondary);
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.delete-modal-header strong {
+  color: #ff9999;
+  font-weight: 600;
+}
+
+.delete-modal-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
+.danger-button {
+  width: 100%;
+  padding: 14px 24px;
+  border-radius: 12px;
+  border: none;
+  background: linear-gradient(135deg, #ff5252, #e63946);
+  color: #fff;
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+  box-shadow: 0 12px 28px rgba(255, 82, 82, 0.35);
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.danger-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 36px rgba(255, 82, 82, 0.45);
+  background: linear-gradient(135deg, #ff6b6b, #f44336);
+}
+
+.danger-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.delete-modal-actions .ghost-button {
+  width: 100%;
+  justify-content: center;
+  padding: 12px 24px;
+}
+
+@media (max-width: 600px) {
+  .delete-plan-modal {
+    border-radius: 24px 24px 0 0;
+  }
+}
+/* ============================================
+   BOTÓN DE FINALIZAR PLAN (VERDE)
+   ============================================ */
+
+.success-button {
+  width: 100%;
+  padding: 12px 20px;
+  border-radius: 12px;
+  border: none;
+  background: linear-gradient(135deg, #7df57d, #28ca6f);
+  color: #04100a;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  box-shadow: 0 12px 28px rgba(125, 245, 125, 0.35);
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.success-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 36px rgba(125, 245, 125, 0.45);
+  background: linear-gradient(135deg, #8eff8e, #32d979);
+}
+
+.success-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ============================================
+   MODAL DE FINALIZACIÓN
+   ============================================ */
+
+.complete-plan-modal {
+  width: min(440px, 90%);
+  background: linear-gradient(180deg, rgba(15, 23, 20, 0.98), rgba(7, 12, 10, 0.98));
+  border-radius: 24px;
+  border: 1px solid rgba(125, 245, 125, 0.2);
+  box-shadow: 0 30px 70px rgba(20, 255, 20, 0.35);
+  padding: 32px 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  text-align: center;
+}
+
+.complete-modal-icon {
+  font-size: 56px;
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(125, 245, 125, 0.15);
+  border: 2px solid rgba(125, 245, 125, 0.3);
+}
+
+.complete-modal-header h2 {
+  margin: 0;
+  font-size: 22px;
+  color: #fff;
+}
+
+.complete-modal-header p {
+  margin: 12px 0 0;
+  color: var(--text-secondary);
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.complete-modal-header strong {
+  color: #b8ffd0;
+  font-weight: 600;
+}
+
+.complete-modal-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
+.complete-modal-actions .ghost-button {
+  width: 100%;
+  justify-content: center;
+  padding: 12px 24px;
+}
+
+@media (max-width: 600px) {
+  .complete-plan-modal {
+    border-radius: 24px 24px 0 0;
+  }
+}
+/* ============================================
+   BOTÓN ELIMINAR EN HISTORIAL
+   ============================================ */
+
+.history-item__meta {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.history-delete-button {
+  padding: 6px 10px;
+  border-radius: 10px;
+  font-size: 16px;
+  background: rgba(255, 82, 82, 0.12);
+  border: 1px solid rgba(255, 82, 82, 0.3);
+  color: #ff6b6b;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.history-delete-button:hover {
+  background: rgba(255, 82, 82, 0.22);
+  border-color: rgba(255, 82, 82, 0.5);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(255, 82, 82, 0.25);
+}
+
+.history-delete-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
 }

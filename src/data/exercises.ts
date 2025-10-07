@@ -63,21 +63,23 @@ export const exercisePlans: ExercisePlan[] = [
   },
 ]
 
+// ⚠️ VALORES EN MINÚSCULAS PARA COINCIDIR CON LA BD
 export const planTypes: PlanFilterOption[] = [
   { label: 'Todos los tipos', value: 'all' },
-  { label: 'Fuerza', value: 'strength' },
+  { label: 'Fuerza', value: 'fuerza' },
   { label: 'Cardio', value: 'cardio' },
-  { label: 'Flexibilidad', value: 'flexibility' },
-  { label: 'Movilidad', value: 'mobility' },
+  { label: 'Flexibilidad', value: 'flexibilidad' },
+  { label: 'Movilidad', value: 'movilidad' },
 ]
 
 export const planLevels: PlanFilterOption[] = [
   { label: 'Todos los niveles', value: 'all' },
-  { label: 'Principiante', value: 'beginner' },
-  { label: 'Intermedio', value: 'intermediate' },
-  { label: 'Avanzado', value: 'advanced' },
+  { label: 'Principiante', value: 'principiante' },
+  { label: 'Intermedio', value: 'intermedio' },
+  { label: 'Avanzado', value: 'avanzado' },
 ]
 
+// ⚠️ VALORES EN MINÚSCULAS PARA CREAR PLANES
 export const exerciseTypeOptions = [
   { label: 'Seleccionar tipo', value: '' },
   { label: 'Fuerza', value: 'fuerza' },
