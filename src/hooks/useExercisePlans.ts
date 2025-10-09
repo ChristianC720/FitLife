@@ -42,15 +42,10 @@ export const useExercisePlans = (): UseExercisePlansReturn => {
       setLoading(true);
       setError(null);
       
-      console.log('📥 Cargando planes con filtros:', filters);
-      
       const response = await exerciseApi.getAllPlans(filters);
-      
-      console.log('📦 Respuesta del backend:', response);
       
       if (response.success) {
         const mappedPlans = response.data.map(mapBackendPlanToFrontend);
-        console.log('✅ Planes mapeados:', mappedPlans);
         setPlans(mappedPlans);
         if (filters) {
           setCurrentFilters(filters);
@@ -59,7 +54,6 @@ export const useExercisePlans = (): UseExercisePlansReturn => {
         throw new Error('Error al cargar los planes');
       }
     } catch (err) {
-      console.error('❌ Error al cargar planes:', err);
       setError(err instanceof Error ? err.message : 'Error desconocido');
       setPlans([]);
     } finally {
@@ -68,7 +62,6 @@ export const useExercisePlans = (): UseExercisePlansReturn => {
   };
 
   const refetch = async () => {
-    console.log('🔄 Refrescando planes...');
     await loadPlans(currentFilters);
   };
 

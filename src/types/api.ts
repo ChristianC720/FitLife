@@ -1,4 +1,3 @@
-// Tipos para mapear datos del backend al frontend
 
 export interface ExerciseFromBackend {
   id: number;

@@ -17,39 +17,27 @@ export function ExercisePlansPage() {
     search: '',
   });
 
-  // Filtrar planes activos (no completados)
   const activePlans = plans.filter(plan => plan.status !== 'Completado');
 
-  // Forzar actualización cuando cambian los filtros
   const handleFilterChange = async (newFilters: typeof filters) => {
-    console.log('🔄 Cambiando filtros a:', newFilters);
     setFilters(newFilters);
     await filterPlans(newFilters);
   };
 
-  // Manejar eliminación de plan
   const handlePlanDeleted = async () => {
-    console.log('🗑️ Plan eliminado, recargando lista...');
     await refetch();
   };
 
-  // Manejar finalización de plan
   const handlePlanCompleted = async () => {
-    console.log('✅ Plan completado, recargando lista e historial...');
     await refetch();
     await refetchHistory();
   };
 
-  // Manejar eliminación del historial
   const handleHistoryDeleted = async () => {
-    console.log('🗑️ Entrada eliminada del historial, recargando...');
     await refetchHistory();
   };
 
-  // Debug: mostrar planes actuales
   useEffect(() => {
-    console.log('📊 Planes totales:', plans.length);
-    console.log('📊 Planes activos:', activePlans.length);
   }, [plans, activePlans]);
 
   return (
@@ -78,7 +66,7 @@ export function ExercisePlansPage() {
 
       {plansError && (
         <div className="error-state">
-          <p>❌ Error: {plansError}</p>
+          <p>{plansError}</p>
           <button onClick={() => window.location.reload()}>Reintentar</button>
         </div>
       )}
@@ -88,7 +76,6 @@ export function ExercisePlansPage() {
           {activePlans.length === 0 ? (
             <div className="empty-state">
               <div className="empty-state__icon" aria-hidden="true">
-                🏋️
               </div>
               <p>No tienes planes activos. ¡Crea uno nuevo para empezar!</p>
               <Link to="/ejercicios/crear" className="primary-button">
@@ -118,7 +105,7 @@ export function ExercisePlansPage() {
 
       {historyError && (
         <div className="error-state">
-          <p>❌ Error al cargar historial: {historyError}</p>
+          <p>{historyError}</p>
         </div>
       )}
 

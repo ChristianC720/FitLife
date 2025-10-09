@@ -12,7 +12,7 @@ export const progressSummaries: ProgressSummary[] = [
     value: '72,200',
     description: 'Promedio: 10,314/día',
     accent: 'success',
-    icon: '📈',
+    icon: '',
   },
   {
     id: 'calories',
@@ -20,7 +20,7 @@ export const progressSummaries: ProgressSummary[] = [
     value: '16,850',
     description: 'Promedio: 2407/día',
     accent: 'warning',
-    icon: '🔥',
+    icon: '',
   },
   {
     id: 'workouts',
@@ -28,7 +28,7 @@ export const progressSummaries: ProgressSummary[] = [
     value: '5',
     description: '42 min promedio',
     accent: 'info',
-    icon: '💪',
+    icon: '',
   },
   {
     id: 'weight',
@@ -36,7 +36,7 @@ export const progressSummaries: ProgressSummary[] = [
     value: '-0.3 kg',
     description: 'Esta semana',
     accent: 'danger',
-    icon: '⚖️',
+    icon: '',
   },
 ]
 

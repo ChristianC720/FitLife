@@ -16,32 +16,27 @@ export function ExercisePlansToolbar({
   const [type, setType] = useState('all');
   const [level, setLevel] = useState('all');
 
-  // Manejar cambio de búsqueda
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setSearch(value);
     
-    // Aplicar filtros con debounce
     setTimeout(() => {
       onFilterChange({ type, level, search: value });
     }, 500);
   };
 
-  // Manejar cambio de tipo
   const handleTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const value = e.target.value;
     setType(value);
     onFilterChange({ type: value, level, search });
   };
 
-  // Manejar cambio de nivel
   const handleLevelChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const value = e.target.value;
     setLevel(value);
     onFilterChange({ type, level: value, search });
   };
 
-  // Limpiar filtros
   const handleClearFilters = () => {
     setSearch('');
     setType('all');

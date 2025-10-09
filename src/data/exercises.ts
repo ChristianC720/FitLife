@@ -63,7 +63,6 @@ export const exercisePlans: ExercisePlan[] = [
   },
 ]
 
-// ⚠️ VALORES EN MINÚSCULAS PARA COINCIDIR CON LA BD
 export const planTypes: PlanFilterOption[] = [
   { label: 'Todos los tipos', value: 'all' },
   { label: 'Fuerza', value: 'fuerza' },
@@ -79,7 +78,6 @@ export const planLevels: PlanFilterOption[] = [
   { label: 'Avanzado', value: 'avanzado' },
 ]
 
-// ⚠️ VALORES EN MINÚSCULAS PARA CREAR PLANES
 export const exerciseTypeOptions = [
   { label: 'Seleccionar tipo', value: '' },
   { label: 'Fuerza', value: 'fuerza' },

@@ -58,9 +58,6 @@ export interface GoalProgress {
   status: string;
 }
 
-/**
- * Obtener resumen de progreso
- */
 export const getProgressSummary = async (days: number = 7) => {
   const response = await api.get<{ success: boolean; data: ProgressSummary }>(
     `/progress/summary?days=${days}`
@@ -68,9 +65,6 @@ export const getProgressSummary = async (days: number = 7) => {
   return response.data.data;
 };
 
-/**
- * Obtener métricas diarias
- */
 export const getDailyMetrics = async (days: number = 7) => {
   const response = await api.get<{ success: boolean; data: DailyMetric[] }>(
     `/progress/metrics?days=${days}`
@@ -78,9 +72,6 @@ export const getDailyMetrics = async (days: number = 7) => {
   return response.data.data;
 };
 
-/**
- * Obtener balance calórico
- */
 export const getCalorieBalance = async (days: number = 7) => {
   const response = await api.get<{ success: boolean; data: CalorieBalance[] }>(
     `/progress/calories?days=${days}`
@@ -88,9 +79,6 @@ export const getCalorieBalance = async (days: number = 7) => {
   return response.data.data;
 };
 
-/**
- * Obtener tendencia de peso
- */
 export const getWeightTrend = async (days: number = 30) => {
   const response = await api.get<{ success: boolean; data: WeightTrend[] }>(
     `/progress/weight?days=${days}`
@@ -98,9 +86,6 @@ export const getWeightTrend = async (days: number = 30) => {
   return response.data.data;
 };
 
-/**
- * Obtener distribución de ejercicios
- */
 export const getExerciseDistribution = async () => {
   const response = await api.get<{ success: boolean; data: ExerciseDistribution[] }>(
     '/progress/distribution'
@@ -108,9 +93,6 @@ export const getExerciseDistribution = async () => {
   return response.data.data;
 };
 
-/**
- * Obtener metas del usuario
- */
 export const getUserGoals = async () => {
   const response = await api.get<{ success: boolean; data: UserGoal[] }>(
     '/progress/goals'
@@ -118,9 +100,6 @@ export const getUserGoals = async () => {
   return response.data.data;
 };
 
-/**
- * Obtener progreso de metas
- */
 export const getGoalsProgress = async () => {
   const response = await api.get<{ success: boolean; data: GoalProgress[] }>(
     '/progress/goals/progress'

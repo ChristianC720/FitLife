@@ -21,10 +21,8 @@ export function ProgressPage() {
     error 
   } = useProgress(days);
 
-  // Convertir datos del backend al formato del frontend
   const progressSummaries: ProgressSummary[] = useMemo(() => {
     if (!summary) return [];
-    
     return [
       {
         id: 'workouts',
@@ -48,7 +46,7 @@ export function ProgressPage() {
         value: `${summary.totalDuration} min`,
         description: `${Math.round(summary.totalDuration / days)} min promedio`,
         accent: 'info',
-        icon: '⏱️',
+        icon: '📈',
       },
       {
         id: 'weight',
@@ -71,14 +69,13 @@ export function ProgressPage() {
           target: 60,
         })),
         distribution: distribution.map((d, index) => ({
-          id: `${d.category}-${index}`, // ⬅️ KEY ÚNICA CON ÍNDICE
+          id: `${d.category}-${index}`,
           label: d.category.charAt(0).toUpperCase() + d.category.slice(1),
           percentage: d.percentage,
           accent: getCategoryAccent(d.category),
         })),
       };
     }
-    
     if (activeTab === 'nutrition') {
       return {
         type: 'nutrition' as const,
@@ -89,7 +86,6 @@ export function ProgressPage() {
         })),
       };
     }
-    
     if (activeTab === 'weight') {
       return {
         type: 'weight' as const,
@@ -105,8 +101,6 @@ export function ProgressPage() {
         ],
       };
     }
-    
-    // goals
     return {
       type: 'goals' as const,
       completion: goalsProgress.map(g => ({
@@ -136,7 +130,7 @@ export function ProgressPage() {
     return (
       <div className="progress-page">
         <div className="error-state">
-          <p>❌ Error: {error}</p>
+          <p>{error}</p>
         </div>
       </div>
     );
@@ -176,7 +170,6 @@ export function ProgressPage() {
   );
 }
 
-// Funciones auxiliares
 function getCategoryAccent(category: string): 'cardio' | 'strength' | 'flexibility' | 'sports' {
   const map: Record<string, 'cardio' | 'strength' | 'flexibility' | 'sports'> = {
     cardio: 'cardio',

@@ -22,17 +22,17 @@ export function ExerciseHistoryList({ items, onDelete }: ExerciseHistoryListProp
 
     try {
       setDeletingId(id);
-      console.log('🗑️ Eliminando del historial:', id);
+      console.log(' Eliminando del historial:', id);
       
       await exerciseApi.deleteWorkoutEntry(id);
       
-      console.log('✅ Eliminado del historial');
+      console.log(' Eliminado del historial');
       
       if (onDelete) {
         onDelete();
       }
     } catch (error) {
-      console.error('❌ Error al eliminar del historial:', error);
+      console.error(' Error al eliminar del historial:', error);
       alert('Error al eliminar. Por favor intenta de nuevo.');
     } finally {
       setDeletingId(null);

@@ -43,7 +43,6 @@ export function useProgress(days: number = 7) {
       setGoals(goalsData);
       setGoalsProgress(progressData);
     } catch (err) {
-      console.error('Error cargando datos de progreso:', err);
       setError(err instanceof Error ? err.message : 'Error desconocido');
     } finally {
       setLoading(false);

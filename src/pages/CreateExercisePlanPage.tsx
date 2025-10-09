@@ -26,7 +26,6 @@ export function CreateExercisePlanPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   
-  // Estado del formulario del plan
   const [planData, setPlanData] = useState({
     name: '',
     category: '',
@@ -36,18 +35,15 @@ export function CreateExercisePlanPage() {
     frequency: '',
   });
 
-  // Lista de ejercicios agregados temporalmente (antes de crear el plan)
   const [exercises, setExercises] = useState<Exercise[]>([]);
 
   const handleOpenModal = () => setIsModalOpen(true);
   const handleCloseModal = () => setIsModalOpen(false);
 
-  // Actualizar datos del plan
   const handlePlanChange = (field: string, value: string) => {
     setPlanData(prev => ({ ...prev, [field]: value }));
   };
 
-  // Agregar ejercicio a la lista temporal
   const handleAddExercise = (exercise: Omit<Exercise, 'order'>) => {
     setExercises(prev => [
       ...prev,
@@ -56,14 +52,11 @@ export function CreateExercisePlanPage() {
     handleCloseModal();
   };
 
-  // Eliminar ejercicio de la lista temporal
   const handleRemoveExercise = (index: number) => {
     setExercises(prev => prev.filter((_, i) => i !== index));
   };
 
-  // Crear plan completo
   const handleCreatePlan = async () => {
-    // Validaciones
     if (!planData.name.trim()) {
       setError('El nombre del plan es requerido');
       return;
@@ -81,7 +74,6 @@ export function CreateExercisePlanPage() {
       setLoading(true);
       setError(null);
 
-      // 1. Crear el plan
       const planResponse = await exerciseApi.createPlan({
         name: planData.name,
         category: planData.category,
@@ -99,7 +91,6 @@ export function CreateExercisePlanPage() {
 
       const createdPlanId = planResponse.data.id;
 
-      // 2. Agregar ejercicios al plan (si hay)
       if (exercises.length > 0) {
         for (const exercise of exercises) {
           await exerciseApi.addExerciseToPlan(createdPlanId, {
@@ -114,18 +105,15 @@ export function CreateExercisePlanPage() {
         }
       }
 
-      // 3. Redirigir a la página de planes
       navigate('/ejercicios');
       
     } catch (err) {
-      console.error('Error al crear plan:', err);
       setError(err instanceof Error ? err.message : 'Error desconocido al crear el plan');
     } finally {
       setLoading(false);
     }
   };
 
-  // Cancelar creación
   const handleCancel = () => {
     if (confirm('¿Estás seguro de que deseas cancelar? Se perderán los cambios.')) {
       navigate('/ejercicios');
@@ -145,7 +133,6 @@ export function CreateExercisePlanPage() {
         </div>
       </header>
 
-      {/* Mostrar errores */}
       {error && (
         <div className="error-message" style={{ 
           padding: '1rem', 
@@ -155,7 +142,7 @@ export function CreateExercisePlanPage() {
           color: '#c00',
           marginBottom: '1rem'
         }}>
-          ❌ {error}
+          {error}
         </div>
       )}
 
@@ -306,7 +293,6 @@ export function CreateExercisePlanPage() {
         {exercises.length === 0 ? (
           <div className="empty-state">
             <div className="empty-state__icon" aria-hidden="true">
-              🏋️
             </div>
             <p>No has agregado ejercicios aún. Haz clic en "Agregar Ejercicio" para comenzar.</p>
           </div>
@@ -325,7 +311,6 @@ export function CreateExercisePlanPage() {
                   className="ghost-button"
                   aria-label="Eliminar ejercicio"
                 >
-                  🗑️
                 </button>
               </li>
             ))}

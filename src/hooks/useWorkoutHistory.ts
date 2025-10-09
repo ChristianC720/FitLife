@@ -3,22 +3,17 @@ import * as exerciseApi from '../services/exerciseApi';
 import type { ExerciseHistoryEntry } from '../types/exercises';
 import type { Accent } from '../types/dashboard';
 
-// Función helper para determinar color según el nombre
 const getAccentColor = (index: number): Accent => {
   const colors: Accent[] = ['success', 'warning', 'info'];
   return colors[index % colors.length];
 };
 
-// Función para formatear fecha correctamente
 const formatDate = (dateString: string): string => {
   try {
     const date = new Date(dateString);
-    
-    // Verificar si la fecha es válida
     if (isNaN(date.getTime())) {
       return 'Fecha no disponible';
     }
-    
     return date.toLocaleDateString('es-ES', {
       weekday: 'long',
       day: 'numeric',
@@ -30,7 +25,6 @@ const formatDate = (dateString: string): string => {
   }
 };
 
-// Mapear datos del backend al formato del frontend
 const mapBackendHistoryToFrontend = (
   backendHistory: exerciseApi.BackendWorkoutHistory,
   index: number
@@ -72,22 +66,16 @@ export const useWorkoutHistory = (): UseWorkoutHistoryReturn => {
     try {
       setLoading(true);
       setError(null);
-      
-      console.log('📥 Cargando historial de entrenamientos...'); // DEBUG
-      
       const response = await exerciseApi.getWorkoutHistory();
-      
       if (response.success) {
         const mappedHistory = response.data.map((item, index) => 
           mapBackendHistoryToFrontend(item, index)
         );
-        console.log('✅ Historial cargado:', mappedHistory.length, 'entrenamientos'); // DEBUG
         setHistory(mappedHistory);
       } else {
         throw new Error('Error al cargar el historial');
       }
     } catch (err) {
-      console.error('❌ Error al cargar historial:', err);
       setError(err instanceof Error ? err.message : 'Error desconocido');
       setHistory([]);
     } finally {
@@ -104,12 +92,10 @@ export const useWorkoutHistory = (): UseWorkoutHistoryReturn => {
   }) => {
     try {
       const response = await exerciseApi.createWorkoutEntry(workout);
-      
       if (response.success) {
         await loadHistory();
       }
     } catch (err) {
-      console.error('Error al agregar entrenamiento:', err);
       throw err;
     }
   }, [loadHistory]);
@@ -122,7 +108,7 @@ export const useWorkoutHistory = (): UseWorkoutHistoryReturn => {
     history,
     loading,
     error,
-    refetch: loadHistory, // ✅ Ya está exportado correctamente
+    refetch: loadHistory,
     addWorkout,
   };
 };

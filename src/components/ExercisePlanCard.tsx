@@ -5,14 +5,14 @@ import * as exerciseApi from '../services/exerciseApi';
 interface ExercisePlanCardProps {
   plan: ExercisePlan;
   onDelete?: () => void;
-  onComplete?: () => void; // ⬅️ NUEVO
+  onComplete?: () => void;
 }
 
 export function ExercisePlanCard({ plan, onDelete, onComplete }: ExercisePlanCardProps) {
   const [isDeleting, setIsDeleting] = useState(false);
-  const [isCompleting, setIsCompleting] = useState(false); // ⬅️ NUEVO
+  const [isCompleting, setIsCompleting] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [showCompleteModal, setShowCompleteModal] = useState(false); // ⬅️ NUEVO
+  const [showCompleteModal, setShowCompleteModal] = useState(false);
 
   const handleDeleteClick = () => {
     setShowDeleteModal(true);
@@ -26,11 +26,11 @@ export function ExercisePlanCard({ plan, onDelete, onComplete }: ExercisePlanCar
     try {
       setIsDeleting(true);
       
-      console.log('🗑️ Eliminando plan:', plan.id);
+      console.log(' Eliminando plan:', plan.id);
       
       const response = await exerciseApi.deletePlan(plan.id);
       
-      console.log('✅ Plan eliminado, respuesta:', response);
+      console.log(' Plan eliminado, respuesta:', response);
       
       setShowDeleteModal(false);
       
@@ -39,7 +39,7 @@ export function ExercisePlanCard({ plan, onDelete, onComplete }: ExercisePlanCar
       }
       
     } catch (error) {
-      console.error('❌ Error al eliminar plan:', error);
+      console.error(' Error al eliminar plan:', error);
       alert('Error al eliminar el plan. Por favor intenta de nuevo.');
       setShowDeleteModal(false);
     } finally {
@@ -47,7 +47,6 @@ export function ExercisePlanCard({ plan, onDelete, onComplete }: ExercisePlanCar
     }
   };
 
-  // ⬇️ NUEVO - Manejar finalización del plan
   const handleCompleteClick = () => {
     setShowCompleteModal(true);
   };
@@ -60,11 +59,11 @@ export function ExercisePlanCard({ plan, onDelete, onComplete }: ExercisePlanCar
     try {
       setIsCompleting(true);
       
-      console.log('✅ Completando plan:', plan.id);
+      console.log('Completando plan:', plan.id);
       
       const response = await exerciseApi.completePlan(plan.id);
       
-      console.log('✅ Plan completado, respuesta:', response);
+      console.log(' Plan completado, respuesta:', response);
       
       setShowCompleteModal(false);
       
@@ -73,7 +72,7 @@ export function ExercisePlanCard({ plan, onDelete, onComplete }: ExercisePlanCar
       }
       
     } catch (error) {
-      console.error('❌ Error al completar plan:', error);
+      console.error(' Error al completar plan:', error);
       alert('Error al completar el plan. Por favor intenta de nuevo.');
       setShowCompleteModal(false);
     } finally {
@@ -133,7 +132,6 @@ export function ExercisePlanCard({ plan, onDelete, onComplete }: ExercisePlanCar
         <footer className="plan-card__footer">
           <div className={`plan-card__level ${plan.statusAccent}`}>{plan.level}</div>
           
-          {/* ⬇️ NUEVO - Mostrar botón según el estado */}
           {plan.status === 'Completado' ? (
             <button className="primary-button plan-card__cta">
               Ver Detalles
@@ -150,7 +148,6 @@ export function ExercisePlanCard({ plan, onDelete, onComplete }: ExercisePlanCar
         </footer>
       </article>
 
-      {/* Modal de eliminación */}
       {showDeleteModal && (
         <div
           className="modal-overlay"
@@ -191,7 +188,6 @@ export function ExercisePlanCard({ plan, onDelete, onComplete }: ExercisePlanCar
         </div>
       )}
 
-      {/* ⬇️ NUEVO - Modal de finalización */}
       {showCompleteModal && (
         <div
           className="modal-overlay"

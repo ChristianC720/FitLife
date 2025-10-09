@@ -1,9 +1,5 @@
 import api from '../utils/api';
 
-// ============================================
-// TIPOS PARA LAS RESPUESTAS DEL BACKEND
-// ============================================
-
 export interface BackendExercisePlan {
   id: number;
   name: string;
@@ -17,7 +13,7 @@ export interface BackendExercisePlan {
   schedule: string | null;
   created_at: string;
   updated_at: string;
-  exercises?: number; // Viene del count de plan_exercises
+  exercises?: number;
 }
 
 export interface BackendExercise {
@@ -48,44 +44,27 @@ export interface ApiResponse<T> {
   message?: string;
 }
 
-// ============================================
-// SERVICIOS DE PLANES DE EJERCICIO
-// ============================================
-
-/**
- * Obtener todos los planes de ejercicio con filtros opcionales
- */
 export const getAllPlans = async (filters?: {
   type?: string;
   level?: string;
   search?: string;
 }) => {
   const params = new URLSearchParams();
-  
-  // Solo agregar filtros si no son 'all' y tienen valor
   if (filters?.type && filters.type !== 'all') {
-    params.append('category', filters.type); // Cambiar 'type' a 'category'
+    params.append('category', filters.type);
   }
-  
   if (filters?.level && filters.level !== 'all') {
     params.append('level', filters.level);
   }
-  
   if (filters?.search && filters.search.trim()) {
     params.append('search', filters.search.trim());
   }
-
   const queryString = params.toString();
   const url = queryString ? `/plans?${queryString}` : '/plans';
-  
-  console.log('🔍 URL de filtrado:', url); // Para debug
-  
   const response = await api.get<ApiResponse<BackendExercisePlan[]>>(url);
   return response.data;
 };
-/**
- * Obtener un plan específico por ID con sus ejercicios
- */
+
 export const getPlanById = async (id: number | string) => {
   const response = await api.get<ApiResponse<BackendExercisePlan & { exercises: BackendExercise[] }>>(
     `/plans/${id}`
@@ -93,9 +72,6 @@ export const getPlanById = async (id: number | string) => {
   return response.data;
 };
 
-/**
- * Crear un nuevo plan de ejercicio
- */
 export const createPlan = async (planData: {
   name: string;
   category: string;
@@ -111,9 +87,6 @@ export const createPlan = async (planData: {
   return response.data;
 };
 
-/**
- * Actualizar un plan existente
- */
 export const updatePlan = async (
   id: number | string,
   planData: Partial<BackendExercisePlan>
@@ -125,21 +98,11 @@ export const updatePlan = async (
   return response.data;
 };
 
-/**
- * Eliminar un plan
- */
 export const deletePlan = async (id: number | string) => {
   const response = await api.delete<ApiResponse<void>>(`/plans/${id}`);
   return response.data;
 };
 
-// ============================================
-// SERVICIOS DE EJERCICIOS DENTRO DE PLANES
-// ============================================
-
-/**
- * Agregar un ejercicio a un plan
- */
 export const addExerciseToPlan = async (
   planId: number | string,
   exerciseData: {
@@ -159,9 +122,6 @@ export const addExerciseToPlan = async (
   return response.data;
 };
 
-/**
- * Actualizar un ejercicio
- */
 export const updateExercise = async (
   planId: number | string,
   exerciseId: number | string,
@@ -174,9 +134,6 @@ export const updateExercise = async (
   return response.data;
 };
 
-/**
- * Eliminar un ejercicio de un plan
- */
 export const deleteExercise = async (
   planId: number | string,
   exerciseId: number | string
@@ -187,21 +144,11 @@ export const deleteExercise = async (
   return response.data;
 };
 
-// ============================================
-// SERVICIOS DE HISTORIAL DE ENTRENAMIENTOS
-// ============================================
-
-/**
- * Obtener historial de entrenamientos (últimos 30 días)
- */
 export const getWorkoutHistory = async () => {
   const response = await api.get<ApiResponse<BackendWorkoutHistory[]>>('/history');
   return response.data;
 };
 
-/**
- * Registrar un nuevo entrenamiento en el historial
- */
 export const createWorkoutEntry = async (workoutData: {
   name: string;
   plan_id?: number;
@@ -215,9 +162,7 @@ export const createWorkoutEntry = async (workoutData: {
   );
   return response.data;
 };
-/**
- * Completar un plan de ejercicio
- */
+
 export const completePlan = async (planId: string | number) => {
   const response = await api.post<ApiResponse<{
     plan: BackendExercisePlan;
@@ -225,9 +170,7 @@ export const completePlan = async (planId: string | number) => {
   }>>(`/plans/${planId}/complete`);
   return response.data;
 };
-/**
- * Eliminar una entrada del historial de entrenamientos
- */
+
 export const deleteWorkoutEntry = async (id: string | number) => {
   const response = await api.delete<ApiResponse<null>>(`/history/${id}`);
   return response.data;
