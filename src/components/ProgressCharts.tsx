@@ -8,8 +8,8 @@ interface ProgressChartsProps {
 
 export function ProgressCharts({ view }: ProgressChartsProps) {
   if (view.type === 'activity') {
-    const columnsStyle = { '--chart-columns': `${view.dailySteps.length}` } as CSSProperties
-    const maxValue = Math.max(...view.dailySteps.map(s => s.value), 60) // Mínimo 60 para escalar bien
+  const columnsStyle = { '--chart-columns': `${view.dailySteps.length}` } as CSSProperties
+  const maxValue = Math.max(...view.dailySteps.map(s => s.value), 60)
     
     return (
       <section className="progress-charts">
@@ -28,7 +28,6 @@ export function ProgressCharts({ view }: ProgressChartsProps) {
                 ))}
               </div>
               
-              {/* Barras verticales */}
               <div className="chart-bars-vertical" style={columnsStyle}>
                 {view.dailySteps.map((step, index) => {
                   const percentage = Math.min((step.value / maxValue) * 100, 100)

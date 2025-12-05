@@ -1,22 +1,18 @@
 import type { INutritionDAO, MealRecord } from './INutritionDAO'
+import api from '../../utils/api'
 
 export class HttpNutritionDAO implements INutritionDAO {
-  private base = '/api/nutrition'
+  private base = '/nutrition'
 
   async addMeal(meal: MealRecord) {
-    // Frontend DAO delegates to backend API; this is a thin wrapper
-    const res = await fetch(`${this.base}/meals`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(meal),
-    })
-    if (!res.ok) throw new Error('Failed to add meal')
-    return res.json()
+    const response = await api.post(`${this.base}/meals`, meal)
+    return response.data
   }
 
   async getMeals(userId: string) {
-    const res = await fetch(`${this.base}/meals?userId=${encodeURIComponent(userId)}`)
-    if (!res.ok) return []
-    return res.json()
+    const response = await api.get(`${this.base}/meals`, {
+      params: { userId },
+    })
+    return response.data || []
   }
 }

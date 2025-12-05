@@ -4,7 +4,6 @@ export class KetoStrategy implements INutritionStrategy {
   readonly name = 'Keto'
 
   generateRecommendations(meals: any[]) {
-    // Small use of meals to avoid unused param lint: compute total calories
     const total = meals?.reduce((s, m) => s + (m.totalCalories || 0), 0) || 0
     const summary = total ? `Total estimado de hoy: ${total} kcal.` : ''
 

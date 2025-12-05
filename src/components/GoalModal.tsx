@@ -3,7 +3,6 @@ import type { FormEvent } from 'react'
 import type { GoalFormOption } from '../types/goals'
 import { GoalSubject } from '../services/observer/GoalSubject'
 
-// re-use GoalEvent shape from observers
 import type { GoalEvent } from '../services/observer/NotificationObserver'
 
 interface GoalModalProps {
@@ -36,8 +35,7 @@ export function GoalModal({ isOpen, onClose, typeOptions, unitOptions }: GoalMod
       progress: 0,
     }
 
-    // notify observers about the created goal (for demo we treat as 'created')
-    GoalSubject.notify(goalEvent)
+  GoalSubject.notify(goalEvent)
 
     onClose()
   }

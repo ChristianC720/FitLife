@@ -1,6 +1,5 @@
 import type { IWearableConnector } from './IWearableConnector'
 
-// Mock adapter for Apple Watch
 export class AppleWatchAdapter implements IWearableConnector {
   async connect(): Promise<boolean> {
     return true

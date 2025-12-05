@@ -47,7 +47,6 @@ export function AddExerciseModal({
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [open, onClose]);
 
-  // Resetear formulario al cerrar
   useEffect(() => {
     if (!open) {
       setFormData({

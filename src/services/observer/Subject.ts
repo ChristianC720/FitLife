@@ -16,8 +16,6 @@ export class Subject<T> {
       try {
         o.update(event)
       } catch (e) {
-        // Observers should handle their own errors; we catch to avoid breaking the loop
-        // eslint-disable-next-line no-console
         console.error('Observer update failed', e)
       }
     }

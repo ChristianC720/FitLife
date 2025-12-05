@@ -3,7 +3,6 @@ import type { ExercisePlan } from './ExercisePlan'
 
 export class MarathonPlanFactory extends PlanFactory {
   createPlan(_profile?: any): ExercisePlan {
-    // Simplified plan generation
     return {
       id: 'marathon-1',
       name: 'Plan Maratón - 16 semanas',
