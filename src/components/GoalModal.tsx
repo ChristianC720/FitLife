@@ -1,6 +1,10 @@
 import { useId } from 'react'
 import type { FormEvent } from 'react'
 import type { GoalFormOption } from '../types/goals'
+import { GoalSubject } from '../services/observer/GoalSubject'
+
+// re-use GoalEvent shape from observers
+import type { GoalEvent } from '../services/observer/NotificationObserver'
 
 interface GoalModalProps {
   isOpen: boolean
@@ -23,6 +27,18 @@ export function GoalModal({ isOpen, onClose, typeOptions, unitOptions }: GoalMod
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
+    const form = event.currentTarget
+    const fd = new FormData(form)
+    const title = (fd.get('title') as string) || 'Nueva meta'
+    const goalEvent: GoalEvent = {
+      id: `${Date.now()}`,
+      title,
+      progress: 0,
+    }
+
+    // notify observers about the created goal (for demo we treat as 'created')
+    GoalSubject.notify(goalEvent)
+
     onClose()
   }
 
